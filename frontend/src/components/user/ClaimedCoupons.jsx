@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRedeemCouponMutation } from "../../redux/features/user/userApi";
 
-const RedeemCoupon = () => {
+const ClaimCoupon = () => {
   const [couponCode, setCouponCode] = useState("");
   const [redeemCoupon, { isLoading, isError, error, isSuccess, data }] = useRedeemCouponMutation();
 
@@ -72,4 +72,4 @@ const RedeemCoupon = () => {
   );
 };
 
-export default RedeemCoupon;
+export default ClaimCoupon;

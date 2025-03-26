@@ -94,7 +94,7 @@ const CouponsSection = () => {
                   
                   {coupon.minOrderValue > 0 && (
                     <div className="mt-2 text-sm text-gray-500">
-                      Min. order: ${coupon.minOrderValue}
+                      Min. order: Rs.{coupon.minOrderValue}
                     </div>
                   )}
                   

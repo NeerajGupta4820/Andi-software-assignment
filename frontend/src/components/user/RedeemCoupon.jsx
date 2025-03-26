@@ -5,9 +5,8 @@ import { FiCheckCircle, FiClock, FiChevronLeft, FiChevronRight } from 'react-ico
 const RedeemCoupon = () => {
   const { data: redeemedCoupons, isLoading, isError } = useGetAllRedeemedCouponsQuery();
   const [currentPage, setCurrentPage] = useState(1);
-  const couponsPerPage = 5; // Number of coupons per page
+  const couponsPerPage = 5; 
 
-  // Calculate pagination
   const totalCoupons = redeemedCoupons?.data?.length || 0;
   const totalPages = Math.ceil(totalCoupons / couponsPerPage);
   const startIndex = (currentPage - 1) * couponsPerPage;
@@ -67,22 +66,26 @@ const RedeemCoupon = () => {
                       <div>
                         <div className="flex items-center">
                           <FiCheckCircle className="text-green-500 mr-2" />
-                          <h3 className="font-medium text-gray-900">{coupon.coupon.code}</h3>
+                          <h3 className="font-medium text-gray-900">
+                            {coupon.coupon?.code || 'Coupon code not available'}
+                          </h3>
                         </div>
                         <p className="text-sm text-gray-500 mt-1">
-                          {coupon.coupon.description || 'No description available'}
+                          {coupon.coupon?.description || 'No description available'}
                         </p>
                       </div>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {coupon.coupon.discount}% OFF
-                      </span>
+                      {coupon.coupon?.discount && (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          {coupon.coupon.discount}% OFF
+                        </span>
+                      )}
                     </div>
                     
                     <div className="mt-3 flex items-center text-sm text-gray-500">
                       <FiClock className="mr-1.5 h-4 w-4 flex-shrink-0" />
                       <p>
                         Redeemed on {new Date(coupon.redeemedAt).toLocaleDateString()} • 
-                        {coupon.coupon.expirationDate ? (
+                        {coupon.coupon?.expirationDate ? (
                           ` Expires ${new Date(coupon.coupon.expirationDate).toLocaleDateString()}`
                         ) : ' No expiration'}
                       </p>
@@ -91,7 +94,6 @@ const RedeemCoupon = () => {
                 ))}
               </ul>
 
-              {/* Pagination Controls */}
               {totalPages > 1 && (
                 <div className="flex items-center justify-between px-5 py-4 border-t border-gray-200">
                   <div className="text-sm text-gray-700">
