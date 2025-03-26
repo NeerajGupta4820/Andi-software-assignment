@@ -208,6 +208,22 @@ const redeemCoupon = async (req, res) => {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
+    const currentDate = new Date(); // Define current date/time here
+
+    if (coupon.startDate && new Date(coupon.startDate) > currentDate) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "This coupon is not yet valid" 
+      });
+    }
+
+    if (coupon.endDate && new Date(coupon.endDate) < currentDate) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "This coupon has expired" 
+      });
+    }
+
     const alreadyRedeemed = user.redeemedCoupons.some(
       (c) => c.coupon.toString() === coupon._id.toString()
     );
@@ -216,15 +232,29 @@ const redeemCoupon = async (req, res) => {
       return res.status(400).json({ success: false, message: "Coupon already redeemed" });
     }
 
-    // Redeem coupon
-    user.redeemedCoupons.push({ coupon: coupon._id });
+    user.redeemedCoupons.push({ 
+      coupon: coupon._id,
+      redeemedAt: new Date() // Also track when the coupon was redeemed
+    });
     coupon.currentUses += 1;
 
     await Promise.all([user.save(), coupon.save()]);
 
-    res.status(200).json({ success: true, message: "Coupon redeemed successfully", data: coupon });
+    res.status(200).json({ 
+      success: true, 
+      message: "Coupon redeemed successfully", 
+      data: {
+        ...coupon.toObject(),
+        remainingUses: coupon.totalQuantity - coupon.currentUses
+      }
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Coupon redemption failed", error: error.message });
+    console.error("Coupon redemption error:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Coupon redemption failed", 
+      error: error.message 
+    });
   }
 };
 

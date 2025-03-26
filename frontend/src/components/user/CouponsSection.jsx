@@ -12,6 +12,17 @@ const CouponsSection = () => {
   const currentCoupons = coupons.slice(indexOfFirstCoupon, indexOfLastCoupon);
   const totalPages = Math.ceil(coupons.length / couponsPerPage);
 
+  const formatExpiryDate = (dateString) => {
+    const options = { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message="Failed to load coupons" />;
 
@@ -53,9 +64,9 @@ const CouponsSection = () => {
                 <div className="p-6">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="font-bold text-lg text-gray-900">{coupon.code}</h3>
+                      <h3 className="font-bold text-lg text-gray-900">{coupon.name}</h3>
                       <p className="text-gray-600 text-sm mt-1">
-                        {coupon.description || 'No description available'}
+                        Code: <span className="font-mono">{coupon.code}</span>
                       </p>
                     </div>
                     <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">
@@ -63,6 +74,30 @@ const CouponsSection = () => {
                       {coupon.discountType === 'percentage' ? '%' : '$'} OFF
                     </span>
                   </div>
+                  
+                  <div className="mt-3 flex items-center text-sm text-gray-500">
+                    <svg
+                      className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    Expires: {formatExpiryDate(coupon.endDate)}
+                  </div>
+                  
+                  {coupon.minOrderValue > 0 && (
+                    <div className="mt-2 text-sm text-gray-500">
+                      Min. order: ${coupon.minOrderValue}
+                    </div>
+                  )}
+                  
                   <div className="mt-4 pt-4 border-t border-gray-100">
                     <div className="mt-3">
                       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -77,14 +112,12 @@ const CouponsSection = () => {
                         {coupon.currentUses} of {coupon.totalQuantity} used
                       </p>
                     </div>
-                    {/* <button className="mt-4 w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium">
-                      Apply Coupon
-                    </button> */}
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          
           {coupons.length > couponsPerPage && (
             <div className="flex items-center justify-between mt-8">
               <button

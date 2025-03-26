@@ -15,8 +15,8 @@ const CreateCoupon = () => {
     discountValue: "",
     minOrderValue: "",
     totalQuantity: "",
-    // startDate: "",
-    // endDate: "",
+    startDate: "",
+    endDate: "",
     isActive: true,
   });
 
@@ -44,7 +44,6 @@ const CreateCoupon = () => {
     } else {
       setFormData({ ...formData, [name]: value });
       
-      // Clear error when field is filled
       if (value && errors[name]) {
         const newErrors = { ...errors };
         delete newErrors[name];
@@ -64,13 +63,12 @@ const CreateCoupon = () => {
     }
     if (!formData.discountValue) newErrors.discountValue = "Discount value is required";
     if (!formData.totalQuantity) newErrors.totalQuantity = "Total quantity is required";
-    // if (!formData.startDate) newErrors.startDate = "Start date is required";
-    // if (!formData.endDate) newErrors.endDate = "End date is required";
+    if (!formData.startDate) newErrors.startDate = "Start date is required";
+    if (!formData.endDate) newErrors.endDate = "End date is required";
     
-    // Validate end date is after start date
-    // if (formData.startDate && formData.endDate && new Date(formData.endDate) <= new Date(formData.startDate)) {
-    //   newErrors.endDate = "End date must be after start date";
-    // }
+    if (formData.startDate && formData.endDate && new Date(formData.endDate) <= new Date(formData.startDate)) {
+      newErrors.endDate = "End date must be after start date";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -90,8 +88,8 @@ const CreateCoupon = () => {
         discountValue: Number(formData.discountValue),
         minOrderValue: Number(formData.minOrderValue) || 0,
         totalQuantity: Number(formData.totalQuantity),
-        // startDate: new Date(formData.startDate).toISOString(),
-        // endDate: new Date(formData.endDate).toISOString(),
+        startDate: new Date(formData.startDate).toISOString(),
+        endDate: new Date(formData.endDate).toISOString(),
       }).unwrap();
 
       toast.success("Coupon created successfully!");
@@ -101,12 +99,21 @@ const CreateCoupon = () => {
     }
   };
 
+  const getCurrentDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-6 text-center">Create New Coupon</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-        {/* First Row - 3 fields */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Name <span className="text-red-500">*</span></label>
@@ -151,7 +158,6 @@ const CreateCoupon = () => {
           </div>
         </div>
 
-        {/* Second Row - 3 fields */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Discount Value <span className="text-red-500">*</span></label>
@@ -193,15 +199,15 @@ const CreateCoupon = () => {
           </div>
         </div>
 
-        {/* Third Row - 2 fields (dates) */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Start Date <span className="text-red-500">*</span></label>
             <input
-              type="datetime-local"
+              type="date"
               name="startDate"
               value={formData.startDate}
               onChange={handleInputChange}
+              min={getCurrentDate()}
               className={`w-full px-3 py-2 border ${errors.startDate ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
             />
             {errors.startDate && (
@@ -212,19 +218,19 @@ const CreateCoupon = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">End Date <span className="text-red-500">*</span></label>
             <input
-              type="datetime-local"
+              type="date"
               name="endDate"
               value={formData.endDate}
               onChange={handleInputChange}
+              min={formData.startDate || getCurrentDate()}
               className={`w-full px-3 py-2 border ${errors.endDate ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
             />
             {errors.endDate && (
               <p className="mt-1 text-sm text-red-500">{errors.endDate}</p>
             )}
           </div>
-        </div> */}
+        </div>
         
-        {/* Active checkbox */}
         <div className="flex items-center">
           <input
             type="checkbox"
@@ -236,7 +242,6 @@ const CreateCoupon = () => {
           <label className="ml-2 block text-sm text-gray-700">Active</label>
         </div>
 
-        {/* Submit button */}
         <div>
           <button
             type="submit"

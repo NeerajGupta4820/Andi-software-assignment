@@ -34,14 +34,14 @@ const couponSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  // startDate: {
-  //   type: Date,
-  //   default: Date.now,
-  // },
-  // endDate: {
-  //   type: Date,
-  //   required: [true, "End date is required"],
-  // },
+  startDate: {
+    type: Date,
+    default: Date.now,
+  },
+  endDate: {
+    type: Date,
+    required: [true, "End date is required"],
+  },
   isActive: {
     type: Boolean,
     default: true,

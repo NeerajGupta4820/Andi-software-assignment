@@ -12,8 +12,8 @@ const createCoupon = async (req, res) => {
       discountValue,
       totalQuantity,
       minOrderValue,
-      // startDate,
-      // expirationDate,
+      startDate,
+      endDate,
       isActive = true,
     } = req.body;
 
@@ -31,8 +31,8 @@ const createCoupon = async (req, res) => {
       totalQuantity,
       currentUses: 0,
       minOrderValue,
-      // startDate: startDate || Date.now(),
-      // expirationDate,
+      startDate: startDate || Date.now(),
+      endDate,
       isActive,
       createdBy: req.user.id,
     });
