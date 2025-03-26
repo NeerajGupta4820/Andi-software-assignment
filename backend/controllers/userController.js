@@ -1,5 +1,5 @@
-import User from "../models/userModel";
-import Coupon from "../models/couponModeld";
+import User from "../models/UserModel";
+import Coupon from "../models/CouponModel";
 
 /**
  * User Profile Controllers
