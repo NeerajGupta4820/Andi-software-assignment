@@ -29,8 +29,8 @@ app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Running on PORT: ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Running on PORT: ${PORT}`);
+});
 
 export default app;

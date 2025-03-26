@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
-import Home from './Pages/Home';
+import Home from './pages/Home';
 import Navbar from './Components/layout/Navbar';
 import Footer from './Components/layout/Footer';
 import Signup from './components/auth/Register';
