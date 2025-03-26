@@ -1,5 +1,5 @@
-import Coupon from "../models/CouponModel";
-import User from "../models/UserModel";
+import Coupon from "../models/CouponModel.js";
+import User from "../models/UserModel.js";
 import mongoose from "mongoose";
 
 const createCoupon = async (req, res) => {

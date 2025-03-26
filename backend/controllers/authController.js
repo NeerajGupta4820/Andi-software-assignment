@@ -1,5 +1,5 @@
-import User from "../models/UserModel";
-import { generateToken } from "../middleware/authMiddleware";
+import User from "../models/UserModel.js";
+import { generateToken } from "../middleware/authMiddleware.js";
 
 const register = async (req, res) => {
   const { name, email, phone, password ,photo} = req.body;  
