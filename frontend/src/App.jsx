@@ -2,14 +2,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import Home from './pages/Home';
-import Navbar from './Components/layout/Navbar';
-import Footer from './Components/layout/Footer';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 import Signup from './components/auth/Register';
 import Login from './components/auth/Login';
-import Contact from './Pages/Contact';
+import Contact from './pages/Contact';
 import UserDashboard from './components/dashboard/UserDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
-import About from './Pages/About';
+import About from './pages/About';
 import './App.css';
 
 const ProtectedRoute = ({ children }) => {
