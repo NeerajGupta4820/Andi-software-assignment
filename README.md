@@ -54,11 +54,3 @@ For reviewer access, use the following admin credentials:
 Username: ngb3358@gmail.com
 Password: 123456
 
-
-> **Note**: This is a default admin account. In a production environment, you should change this password immediately after setup.
-
----
-
-## 🚀 Getting Started
-
-[Include the rest of your installation and setup instructions here...]
